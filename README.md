@@ -2,7 +2,7 @@
 
 ## Descrição
 
-Este projeto busca criar bases de dados a partir de uma lista de CEPs, Códigos de Bancos e CNPJs usando a API do BrasilAPI e salva-los como Tabelas em um banco de dados SQL. Ele também inclui um sistema de notificação que alerta quando há falhas no carregamento dos dados durante consulta às APIs.
+Este projeto busca criar bases de dados a partir de uma lista de CEPs, Códigos de Bancos e CNPJs usando a API do BrasilAPI e salvá-los como Tabelas em um banco de dados SQL. Ele também inclui um sistema de notificação que alerta quando há falhas no carregamento dos dados durante consulta às APIs.
 
 ## Bibliotecas Utilizadas
 - `numpy`: Usada para manipulação de arrays.
