@@ -60,110 +60,7 @@ def alerta(nivel, dado):
 ```
 ### Criação de Dataframes
 
-#### 1. CEPs 
-O trecho do código a seguir cria uma base de dados a partir de uma lista de CEPs. Para cada CEP, ele faz uma requisição à API do BrasilAPI e armazena os dados recebidos em um DataFrame do Pandas.
-
-
-``` Python
-
-# Lista de CEPs
-ceps = ['41720060', '09715022', '22222222']
-# Lista para armazenar as respostas das requisições
-responses = list()
-# Requisições à API
-for cep in ceps:
-   url = f'https://brasilapi.com.br/api/cep/v1/{cep}'
-   response = requests.get(url, verify=False)
-   responses.append(response)
-# DataFrame inicial (vazio)
-df_full = pd.DataFrame(
-   {
-       'CEP': [np.nan],
-       'Estado': [np.nan],
-       'Cidade': [np.nan],
-       'Bairro': [np.nan],
-       'Rua': [np.nan],
-       'Serviço': [np.nan],
-   }
-)
-# Processamento das respostas
-for n in range(len(responses)):
-   if responses[n].status_code == 200:
-       data = responses[n].json()
-       df = pd.DataFrame(
-           {
-               'CEP': [data['cep']],
-               'Estado': [data['state']],
-               'Cidade': [data['city']],
-               'Bairro': [data['neighborhood']],
-               'Rua': [data['street']],
-               'Serviço': [data['service']],
-           }
-       )
-       df_full = pd.concat([df_full, df])
-   else:
-       nivel = responses[n].status_code
-       dado = f'CEP: {ceps[n]}'
-       alerta(nivel, dado)
-# Removendo linhas com valores vazios
-df_full = df_full.dropna()
-# DataFrame final
-TabelaCEP = pd.DataFrame(df_full)
-
-TabelaCEP
-
-```
-#### 2. Bancos 
-O trecho do código a seguir cria uma base de dados a partir de uma lista de códigos de bancos. Para cada código, ele faz uma requisição à API do BrasilAPI e armazena os dados recebidos em um DataFrame do Pandas.
-
-``` Python
-
-# Lista de códigos
-codes = ['1', '70', '98999']
-# Lista para armazenar as respostas das requisições
-responses2 = list()
-# Requisições à API
-for code in codes:
-    url = f'https://brasilapi.com.br/api/banks/v1/{code}'
-    response2 = requests.get(url,verify=False)
-    responses2.append(response2)
-# DataFrame inicial (vazio)
-df2_full = pd.DataFrame(
-    {
-        'ISPB': [np.nan],
-        'Nome': [np.nan],
-        'Código': [np.nan],
-        'Nome completo': [np.nan],
-    }
-)
-# Processamento das respostas
-for n in range(len(responses2)):
-    ## PARSE
-    if responses2[n].status_code == 200:
-        data2 = responses2[n].json()
-        df2 = pd.DataFrame(
-            {
-                'ISPB': [data2['ispb']],
-                'Nome': [data2['name']],
-                'Código': [data2['code']],
-                'Nome completo': [data2['fullName']],                               
-            }
-        )
-        df2_full = pd.concat([df2_full, df2])
-    else:
-        nivel = responses2[n].status_code
-        dado= f'Código: {codes[n]}'
-        alerta(nivel, dado)
-# Removendo linhas com valores vazios
-df2_full = df2_full.dropna()
-# DataFrame final
-TabelaBanco=pd.DataFrame(df2_full)
-
-TabelaBanco
-
-```
-
-#### 3. CNPJs
+#### 1. CNPJs
 O trecho do código a seguir cria uma base de dados a partir de uma lista de CJPJs. Para cada CNPJ, ele faz uma requisição à API do BrasilAPI e armazena os dados recebidos em um DataFrame do Pandas.
 
 ``` Python
@@ -215,6 +112,124 @@ TabelaCNPJ
 
 ```
 
+#### 2. CEPs 
+O trecho do código a seguir cria uma base de dados a partir de uma lista de CEPs. Para cada CEP, ele faz uma requisição à API do BrasilAPI e armazena os dados recebidos em um DataFrame do Pandas.
+
+
+``` Python
+
+#Criação de lista dos CEPs das empresas a partir da coluna "CEP" do dataframe "TabelaCNPJ"
+Lista_CEP =TabelaCNPJ['CEP'].tolist()
+Lista_CEP
+
+# Lista para armazenar as respostas das requisições
+responses = list()
+# Requisições à API
+for cep in ceps:
+   url = f'https://brasilapi.com.br/api/cep/v1/{cep}'
+   response = requests.get(url, verify=False)
+   responses.append(response)
+# DataFrame inicial (vazio)
+df_full = pd.DataFrame(
+   {
+       'CEP': [np.nan],
+       'Estado': [np.nan],
+       'Cidade': [np.nan],
+       'Bairro': [np.nan],
+       'Rua': [np.nan],
+       'Serviço': [np.nan],
+   }
+)
+
+# Processamento das respostas
+for n in range(len(responses)):
+   if responses[n].status_code == 200:
+       data = responses[n].json()
+       df = pd.DataFrame(
+           {
+               'CEP': [data['cep']],
+               'Estado': [data['state']],
+               'Cidade': [data['city']],
+               'Bairro': [data['neighborhood']],
+               'Rua': [data['street']],
+               'Serviço': [data['service']],
+           }
+       )
+       df_full = pd.concat([df_full, df])
+   else:
+       nivel = responses[n].status_code
+       dado = f'CEP: {ceps[n]}'
+       alerta(nivel, dado)
+
+# Removendo linhas com valores vazios
+df_full = df_full.dropna()
+
+# DataFrame final
+TabelaCEP = pd.DataFrame(df_full)
+
+TabelaCEP
+
+```
+#### 3. Bancos 
+O trecho do código a seguir cria uma base de dados a partir de uma lista de códigos de bancos. Para cada código, ele faz uma requisição à API do BrasilAPI e armazena os dados recebidos em um DataFrame do Pandas.
+
+``` Python
+
+# Lista de códigos
+codes = ['1', '70', '98999']
+# Lista para armazenar as respostas das requisições
+responses2 = list()
+# Requisições à API
+for code in codes:
+    url = f'https://brasilapi.com.br/api/banks/v1/{code}'
+    response2 = requests.get(url,verify=False)
+    responses2.append(response2)
+# DataFrame inicial (vazio)
+df2_full = pd.DataFrame(
+    {
+        'ISPB': [np.nan],
+        'Nome': [np.nan],
+        'Código': [np.nan],
+        'Nome completo': [np.nan],
+    }
+)
+# Processamento das respostas
+for n in range(len(responses2)):
+    ## PARSE
+    if responses2[n].status_code == 200:
+        data2 = responses2[n].json()
+        df2 = pd.DataFrame(
+            {
+                'ISPB': [data2['ispb']],
+                'Nome': [data2['name']],
+                'Código': [data2['code']],
+                'Nome completo': [data2['fullName']],                               
+            }
+        )
+        df2_full = pd.concat([df2_full, df2])
+    else:
+        nivel = responses2[n].status_code
+        dado= f'Código: {codes[n]}'
+        alerta(nivel, dado)
+# Removendo linhas com valores vazios
+df2_full = df2_full.dropna()
+# DataFrame final
+TabelaBanco=pd.DataFrame(df2_full)
+
+TabelaBanco
+
+```
+
+### Juntando as tabelas de CNPJs e CEPs
+O trecho do código a seguir junta as tabelas de CNPJs e CEPs a partir do campo em comum entre elas: o CEP.
+
+``` Python
+
+df_Join = TabelaCNPJ.merge(TabelaCEP, on='CEP', how= 'left')
+df_Join
+
+```
+
 ### Salvando e carregando as Tabelas na base de dados SQLite
 O trecho do código a seguir contém funções Python para interagir com um banco de dados SQLite, permitindo salvar e carregar os DataFrames criados anteriormente como tabelas no banco de dados Coderhouse.db.
 
@@ -259,6 +274,11 @@ def carrega_bd(nome_tabela):
 
     return df
 
+# Salvando Tabela CNPJ no Banco de Dados
+nome_tabela = 'TabelaCNPJ'
+salva_bd(TabelaCNPJ, nome_tabela)
+carrega_bd(nome_tabela)
+
 # Salvando Tabela CEP no Banco de Dados
 nome_tabela = 'TabelaCEP'
 salva_bd(TabelaCEP, nome_tabela)
@@ -269,9 +289,9 @@ nome_tabela = 'TabelaBanco'
 salva_bd(TabelaBanco, nome_tabela)
 carrega_bd(nome_tabela)
 
-# Salvando Tabela CNPJ no Banco de Dados
-nome_tabela = 'TabelaCNPJ'
-salva_bd(TabelaCNPJ, nome_tabela)
+# Salvando Tabela df_Join (Junção Tabela CNPJ e Tabela CEP)
+nome_tabela = 'TabelaCNPJ_CEP'
+salva_bd(df_Join, nome_tabela)
 carrega_bd(nome_tabela)
 
 # Validando as tabelas disponibilizadas no banco de dados
