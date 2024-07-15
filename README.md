@@ -66,14 +66,17 @@ O trecho do código a seguir cria uma base de dados a partir de uma lista de CNP
 ``` Python
 
 # Lista de códigos
-cnpjs = ['33041260065290', '47960950000121', '22222222']
+cnpjs = ['33041260065290', '47960950000121', '33014556009819', '45543915002125', '15436940000448']
+
 # Lista para armazenar as respostas das requisições
 responses3 = list()
+
 # Requisições à API
 for cnpj in cnpjs:
     url = f'https://brasilapi.com.br/api/cnpj/v1/{cnpj}'
     response3 = requests.get(url,verify=False)
     responses3.append(response3)
+
 # DataFrame inicial (vazio)
 f3_full = pd.DataFrame(
     {
@@ -84,6 +87,7 @@ f3_full = pd.DataFrame(
         'Telefone': [np.nan],
     }
 )
+
 # Processamento das respostas
 for n in range(len(responses3)):
     ## PARSE
@@ -103,6 +107,7 @@ for n in range(len(responses3)):
         nivel = responses3[n].status_code
         dado= f'Código: {cnpjs[n]}'
         alerta(nivel, dado)
+
 # Removendo linhas com valores vazios
 df3_full = df3_full.dropna()
 # DataFrame final
@@ -125,10 +130,11 @@ Lista_CEP
 # Lista para armazenar as respostas das requisições
 responses = list()
 # Requisições à API
-for cep in ceps:
+for cep in Lista_CEP:
    url = f'https://brasilapi.com.br/api/cep/v1/{cep}'
    response = requests.get(url, verify=False)
    responses.append(response)
+
 # DataFrame inicial (vazio)
 df_full = pd.DataFrame(
    {
@@ -177,13 +183,16 @@ O trecho do código a seguir cria uma base de dados a partir de uma lista de có
 
 # Lista de códigos
 codes = ['1', '70', '98999']
+
 # Lista para armazenar as respostas das requisições
 responses2 = list()
+
 # Requisições à API
 for code in codes:
     url = f'https://brasilapi.com.br/api/banks/v1/{code}'
     response2 = requests.get(url,verify=False)
     responses2.append(response2)
+
 # DataFrame inicial (vazio)
 df2_full = pd.DataFrame(
     {
@@ -193,6 +202,7 @@ df2_full = pd.DataFrame(
         'Nome completo': [np.nan],
     }
 )
+
 # Processamento das respostas
 for n in range(len(responses2)):
     ## PARSE
@@ -211,8 +221,10 @@ for n in range(len(responses2)):
         nivel = responses2[n].status_code
         dado= f'Código: {codes[n]}'
         alerta(nivel, dado)
+
 # Removendo linhas com valores vazios
 df2_full = df2_full.dropna()
+
 # DataFrame final
 TabelaBanco=pd.DataFrame(df2_full)
 
@@ -266,7 +278,7 @@ def carrega_bd(nome_tabela):
     '''
     conn = sqlite3.connect('coderhouse.db')
 
-    # Executar uma consulta SELECT na tabela 'produtos' e converter em um DataFrame
+    # Executar uma consulta SELECT na tabela e converter em um DataFrame
     query = f"SELECT * FROM {nome_tabela}"
     df = pd.read_sql(query, conn)
 
