@@ -129,6 +129,7 @@ Lista_CEP
 
 # Lista para armazenar as respostas das requisições
 responses = list()
+
 # Requisições à API
 for cep in Lista_CEP:
    url = f'https://brasilapi.com.br/api/cep/v1/{cep}'
