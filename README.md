@@ -61,7 +61,7 @@ def alerta(nivel, dado):
 ### Criação de Dataframes
 
 #### 1. CNPJs
-O trecho do código a seguir cria uma base de dados a partir de uma lista de CJPJs. Para cada CNPJ, ele faz uma requisição à API do BrasilAPI e armazena os dados recebidos em um DataFrame do Pandas.
+O trecho do código a seguir cria uma base de dados a partir de uma lista de CNPJs. Para cada CNPJ, ele faz uma requisição à API do BrasilAPI e armazena os dados recebidos em um DataFrame do Pandas.
 
 ``` Python
 
