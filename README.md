@@ -316,6 +316,6 @@ tabelas_bd()
 
 1. Certifique-se de ter todas as bibliotecas instaladas:
    
-Bibliotecas e versões especificadas no [arquivo Requirements,txt](./Requirements.txt)
+Bibliotecas e versões especificadas no [arquivo Requirements.txt](./Requirements.txt)
 
 3. Execute o código Python.
