@@ -318,7 +318,7 @@ tabelas_bd()
 
  ``` Python
 
-pip install numpy pandas requests plyer
+Bibliotecas e versões especificadas no documento Requirements.txt
 
 ```
 
