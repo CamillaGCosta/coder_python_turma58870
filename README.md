@@ -318,7 +318,7 @@ tabelas_bd()
 
  ``` Python
 
-Bibliotecas e versões especificadas no documento <txt src="Requirements">
+Bibliotecas e versões especificadas no documento (./ Requirements.txt)
 
 ```
 
