@@ -315,11 +315,7 @@ tabelas_bd()
 ## Como Executar
 
 1. Certifique-se de ter todas as bibliotecas instaladas:
-
- ``` Python
-
+   
 Bibliotecas e versões especificadas no documento (./Requirements.txt)
 
-```
-
-2. Execute o código Python.
+3. Execute o código Python.
